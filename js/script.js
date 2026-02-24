@@ -22,6 +22,7 @@ var menuItemsUrl =
   "https://coursera-jhu-default-rtdb.firebaseio.com/menu_items/";
 var menuItemsTitleHtml = "snippets/menu-items-title.html";
 var menuItemHtml = "snippets/menu-item.html";
+var aboutUrl = "snippets/about.html";
 
 // Convenience function for inserting innerHTML for 'select'
 var insertHtml = function (selector, html) {
@@ -171,7 +172,7 @@ function buildAndShowAboutHTML(aboutHtml) {
   // are skewed and they filter out any bad reviews 
   var rating = Math.floor(Math.random()*4)+47; 
   var fullStars = Math.floor(rating/10); 
-  var fragStars = (rating %10)! == 0; 
+  var fragStars = (rating %10) !== 0; 
 
   for (var i=1; i<=5; i++) {
     var starCat; 
