@@ -123,7 +123,7 @@ function buildAndShowHomeHTML (categories) {
       // Use the existing insertHtml function for that purpose. Look through this code for an example
       // of how to do that.
       // ....
-      insertHtml("#mail-content", homeHtmlToInsertIntoMainPage);
+      insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
     },
     false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
 }
@@ -157,6 +157,38 @@ dc.loadMenuItems = function (categoryShort) {
     buildAndShowMenuItemsHTML);
 };
 
+// Load the about items 
+dc.loadAbout = function() {
+  showLoading('#main-content'); 
+  $ajaxUtils.sendGetRequest(
+    aboutUrl, buildAndShowAboutHTML, false); 
+}; 
+
+// Builds the About page with ratings for classes using font awesome
+// added star categories for reviews - randomly generated between 4.7 and 5.0 stars
+function buildAndShowAboutHTML(aboutHtml) {
+  // making ratings on restaurant's webpage realistic - usually reviews on restaurant website
+  // are skewed and they filter out any bad reviews 
+  var rating = Math.floor(Math.random()*4)+47; 
+  var fullStars = Math.floor(rating/10); 
+  var fragStars = (rating %10)! == 0; 
+
+  for (var i=1; i<=5; i++) {
+    var starCat; 
+    if (i <= fullStars) {
+      starCat = "fa fa-star"; 
+    } 
+    else if ( i === fullStars+1 && fragStars) {
+      starCat = "fa fa-star-half-o"; 
+    }
+    else {
+      starCat = "fa fa-star-o";
+    }
+    aboutHtml = insertProperty(aboutHtml, "class" + i, starCat); 
+  }
+  aboutHtml = insertProperty(aboutHtml, "ratingNumber", (rating/10)); 
+  insertHtml("#main-content", aboutHtml); 
+}
 
 // Builds HTML for the categories page based on the data
 // from the server
